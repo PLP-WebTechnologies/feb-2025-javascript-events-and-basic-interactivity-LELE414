@@ -1,52 +1,121 @@
-# 🎯 JavaScript Event Handling & Interactive Elements Assignment
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Sign-Up Page</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Sign Up for The Coolest Club!</h1>
 
-Welcome to the **ultimate JavaScript playground**! 🎉 This assignment is where we turn boring web pages into dynamic, responsive, *alive* experiences. Get ready to master **event handling**, build **interactive components**, and validate forms like a pro! 💪
+  <form id="signupForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" required />
+    <span class="error" id="usernameError"></span>
 
-## 📁 Assignment Structure
+    <label for="email">Email:</label>
+    <input type="email" id="email" required />
+    <span class="error" id="emailError"></span>
 
-```
-📂 js-event-assignment/
-├── index.html         # Your playground – where it all comes together
-├── style.css          # Keep it cute (optional but encouraged)
-└── script.js          # The JavaScript wizardry happens here
-```
+    <label for="password">Password:</label>
+    <input type="password" id="password" required />
+    <button type="button" id="togglePassword">Show</button>
+    <span class="error" id="passwordError"></span>
 
----
+    <button type="submit">Sign Up</button>
+  </form>
 
-## 🧪 What to Build
+  <p id="message"></p>
 
-Here’s what your interactive bundle of joy should include:
+  <script src="script.js"></script>
+</body>
+</html>
 
-### 1. Event Handling 🎈  
-- Button click ✅  
-- Hover effects ✅  
-- Keypress detection ✅  
-- Bonus: A secret action for a *double-click* or *long press* 🤫
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
 
-### 2. Interactive Elements 🎮  
-- A button that changes text or color  
-- An image gallery or slideshow  
-- Tabs or accordion-style content  
-- Bonus: Add some animation using JS or CSS ✨
+form {
+  display: inline-block;
+  text-align: left;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
 
-### 3. Form Validation 📋✅  
-- Required field checks  
-- Email format validation  
-- Password rules (e.g., min 8 characters)  
-- Bonus: Real-time feedback while typing
+input {
+  display: block;
+  margin: 10px 0 5px;
+  padding: 8px;
+  width: 250px;
+}
 
----
+button {
+  padding: 8px 15px;
+  margin-top: 10px;
+}
 
-## 🧙‍♂️ Pro Tips
+.error {
+  color: red;
+  font-size: 0.9em;
+}
 
-- Keep your code clean and commented – your future self will thank you!
-- Think about **user experience** – what makes your site more *fun* to use?
-- Don’t be afraid to **Google and experiment** – that’s how real developers roll!
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("signupForm");
+  const username = document.getElementById("username");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const message = document.getElementById("message");
 
----
+  const usernameError = document.getElementById("usernameError");
+  const emailError = document.getElementById("emailError");
+  const passwordError = document.getElementById("passwordError");
 
-## 🎉 Now Go Make It Fun!
+  const togglePasswordBtn = document.getElementById("togglePassword");
 
-Remember – this isn't just code. It's your **first step toward creating magical user experiences**. So play around, break stuff (then fix it), and most of all, have FUN! 😄
+  // Toggle password visibility
+  togglePasswordBtn.addEventListener("click", () => {
+    const isHidden = password.type === "password";
+    password.type = isHidden ? "text" : "password";
+    togglePasswordBtn.textContent = isHidden ? "Hide" : "Show";
+  });
 
-Happy Coding! 💻✨  
+  // Form submission handler
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Reset previous error messages
+    usernameError.textContent = "";
+    emailError.textContent = "";
+    passwordError.textContent = "";
+    message.textContent = "";
+
+    let isValid = true;
+
+    // Simple validation
+    if (username.value.trim() === "") {
+      usernameError.textContent = "Username is required.";
+      isValid = false;
+    }
+
+ if (email.value.trim() === "") {
+      emailError.textContent = "Email is required.";
+      isValid = false;
+    }
+
+    if (password.value.trim().length < 6) {
+      passwordError.textContent = "Password must be at least 6 characters.";
+      isValid = false;
+    }
+
+    // Show success message
+    if (isValid) {
+      message.textContent = "Sign-up successful! Welcome!";
+      message.style.color = "green";
+      form.reset();
+    }
+  });
+});
